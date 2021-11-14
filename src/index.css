@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+  background-color: white;
+  margin: 0;
+  padding: 0; 
+  vertical-align: baseline;
+  font-size: 100%;
+}
+
+body {
+  overflow-x: hidden; 
+  overflow-y: scroll;
+  font-family: 'Open Sans', sans-serif;
+}
