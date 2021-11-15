@@ -32,6 +32,8 @@ function Home() {
 
 export default Home;
 
+
+
 const Container = styled.div`
   display: flex;
   width: 80vw;
@@ -56,6 +58,7 @@ const Section = styled.div`
   flex-direction: column;
   text-align: center;
   font-size: 15px;
+  
   h5,
   p {
     display: inline;
@@ -73,13 +76,14 @@ const Section = styled.div`
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 12fr) minmax(300px, 7fr);
+  grid-template-columns: minmax(200px, 5fr) minmax(0, 12fr) minmax(300px, 7fr);
   grid-template-rows: auto;
   margin: 25px 0;
   column-gap: 25px; 
   grid-template-areas: 
   "Left Main Right";
   @media (max-width: ${(props) => props.theme.mobile}) {
-    grid-template-columns: minmax(0, auto);
+    display: flex;
+    flex-direction: column;
   }
 `;

@@ -6,7 +6,7 @@ import SignIn from "./components/SignIn";
 import Home from "./components/Home";
 
 let theme = {
-  mobile: "768px",
+  mobile: "768px"
 };
 
 function App() {

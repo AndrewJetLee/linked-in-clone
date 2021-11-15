@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  background-color: white;
+  
   margin: 0;
   padding: 0; 
   vertical-align: baseline;
@@ -11,4 +11,6 @@ body {
   overflow-x: hidden; 
   overflow-y: scroll;
   font-family: 'Open Sans', sans-serif;
+  background-color: rgba(0, 0, 0, 0.04);
+  
 }
