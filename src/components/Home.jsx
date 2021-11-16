@@ -76,7 +76,7 @@ const Section = styled.div`
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: minmax(200px, 5fr) minmax(0, 12fr) minmax(300px, 7fr);
+  grid-template-columns: minmax(200px, 5fr) minmax(500px, 12fr) minmax(300px, 7fr);
   grid-template-rows: auto;
   margin: 25px 0;
   column-gap: 25px; 

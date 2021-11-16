@@ -58,7 +58,6 @@ export const TopCard = styled.div`
   overflow: hidden;
   background-color: #fff;
   border-radius: 5px;
-  transition: box-shadow 84ms;
   position: relative;
   border: none;
   box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
