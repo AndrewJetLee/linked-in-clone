@@ -28,6 +28,14 @@ const Post = () => {
                     </Article>
                 </Bottom>
             </PostCard>
+            <SortButton>
+                <hr />
+                <div>
+                    <span>Sort by: </span>
+                    <span>Top</span>
+                    <img src="/images/down-icon.svg" alt="" />
+                </div>
+            </SortButton>
         </Container>
     )
 }
@@ -41,6 +49,7 @@ const Container = styled.div`
     min-height: 130px; 
     display: flex; 
     justify-content: center; 
+    flex-direction: column; 
 `
 
 const PostCard = styled.div`
@@ -116,5 +125,42 @@ const Event = styled(Photo)``
 
 const Article = styled(Photo)``
 
-
-
+const SortButton = styled.button`
+    display: flex; 
+    border: none; 
+    align-items: center;
+    hr {
+        
+        flex-grow: 1;
+        background-color: rgba(0, 0, 0, 0.08);
+        border: 0;
+        height: 1px; 
+        margin: 1rem 0 24px; 
+        padding: 0;
+        border-color: rgba(0, 0, 0, 0, .15);
+        border-top: 1px solid rgba(0, 0, 0, .15);
+        
+    }
+    div {
+        
+        display: flex; 
+        align-items: center;
+        margin-top: -8px; 
+        margin-left: 4px; 
+        span {
+            margin-left: 3px; 
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 12px; 
+            
+            :nth-child(2) {
+                color: rgba(0, 0, 0, 0.9);
+                font-weight: 600; 
+            }
+        }
+        img {
+            margin-left: 3px; 
+            height: 13px; 
+            width: 13px; 
+        }
+    }
+`
