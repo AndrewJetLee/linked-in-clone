@@ -36,7 +36,7 @@ export default Home;
 
 const Container = styled.div`
   display: flex;
-  width: 80vw;
+  width: 70vw;
   flex-direction: column;
   align-items: space-around;
   justify-content: space-around;

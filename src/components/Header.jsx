@@ -82,9 +82,9 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80vw;
+  width: 70vw;
   min-height: 100%;
-  min-width: 80vw; 
+  min-width: 70vw; 
   max-width: 100%;
 `;
 
