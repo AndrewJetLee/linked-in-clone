@@ -20,7 +20,7 @@ const Post = () => {
                     </Video>
                     <Event>
                         <img src="/images/event-icon.svg" alt="" />
-                        <span>Video</span>
+                        <span>Event</span>
                     </Event>
                     <Article>
                         <img src="/images/article-icon.svg" alt="" />
@@ -118,8 +118,7 @@ const Photo = styled.a`
     }
 `
 
-const Video = styled(Photo)`
-`
+const Video = styled(Photo)``
 
 const Event = styled(Photo)``
 
