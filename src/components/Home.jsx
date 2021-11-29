@@ -1,13 +1,23 @@
 import styled from "styled-components";
 import Header from "./Header";
+import { Navigate } from "react-router";
 import { Main } from "./Main";
 import { Right } from "./Right";
 import { Left } from "./Left";
+import { useSelector, useDispatch } from 'react-redux'
 
 function Home() {
+
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
   return (
     <>
-      <Header />
+      {
+        !user && 
+        <Navigate to='/'/>
+      }
+      <Header user={user} dispatch={dispatch}/>
       <Container>
         <Section>
           <div>
@@ -21,7 +31,7 @@ function Home() {
           </div>
         </Section>
         <Layout>
-          <Left/>
+          <Left user={user} dispatch={dispatch}/>
           <Main/>
           <Right/>
         </Layout>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth, provider } from "../firebase";
-import { signInWithPopup, GoogleAuthProvider } from "@firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signOut } from "@firebase/auth";
+
 
 
 export const getGoogleInfo = () => {
@@ -18,6 +19,19 @@ export const getGoogleInfo = () => {
     })
   }
 } 
+
+export const signOutAPI = () => {
+  return (dispatch, getState) => {
+    signOut()
+    .then(() => {
+      console.log('Successfully logged Out')
+      dispatch(userSignOut())
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+}
 
 export const authSlice = createSlice({
   name: "auth",
@@ -39,10 +53,16 @@ export const authSlice = createSlice({
         user: action.payload
       }
     },
+    userSignOut: (state) => {
+      return {
+        ...state,
+        user: null
+      }
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { googleSignIn } = authSlice.actions;
+export const { googleSignIn, userSignOut } = authSlice.actions;
 
 export default authSlice.reducer;
