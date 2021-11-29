@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux'
-import { googleSignIn } from '../redux/authSlice'
+import { googleSignIn, getGoogleInfo } from '../redux/authSlice'
 import { Navigate } from "react-router"
 import { useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "@firebase/auth";
@@ -12,23 +12,7 @@ function Landing() {
   const dispatch = useDispatch();
 
   const googleOnClick =  () => {
-    signInWithPopup(auth, provider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user; 
-      dispatch(googleSignIn(token))
-    })
-    .catch((err) => {
-      // Handle Errors here.
-      const errorCode = err.code;
-      const errorMessage = err.message;
-      // The email of the user's account used.
-      const email = err.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(err);
-      console.log(err);
-    });
+    dispatch(getGoogleInfo());
   }
 
   return (

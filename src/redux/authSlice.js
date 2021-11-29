@@ -1,13 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, GoogleAuthProvider } from "@firebase/auth";
-import { useSelector, useDispatch } from 'react-redux'
 
 
-const getGoogleInfo = () => {
+export const getGoogleInfo = () => {
   return (dispatch, getState) => {
     // make async call to google api
-    dispatch(googleSignIn())
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      // const credential = GoogleAuthProvider.credentialFromResult(result);
+      // const token = credential.accessToken;
+      const user = result.user; 
+      dispatch(googleSignIn(user));
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 } 
 
@@ -26,7 +34,10 @@ export const authSlice = createSlice({
 
     },
     googleSignIn: (state, action) => {
-      state.user = action.payload; 
+      return {
+        ...state,
+        user: action.payload
+      }
     },
   },
 });
