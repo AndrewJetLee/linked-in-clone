@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Left = () => {
+export const Left = ({user, dispatch}) => {
   return (
     <Container>
       <TopCard>
@@ -8,7 +8,7 @@ export const Left = () => {
           <CardBackground />
           <a>
             <Photo></Photo>
-            <Link>Andrew Lee</Link>
+            <Link>Welcome, {user ? user.displayName + "!": "there!"}</Link>
           </a>
           <a>
             <AddPhotoText>Add a photo</AddPhotoText>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { signOutAPI } from "../redux/authSlice";
 
-function Header() {
+function Header({user, dispatch}) {
   return (
     <Container>
       <Content>
@@ -37,14 +38,15 @@ function Header() {
                 <span>Notifications</span>
               </a>
               <User>
+                
                 <a href="">
-                  <img src="/images/user.svg" alt="" />
+                  {user && user.photoURL ? <img src={user.photoURL} alt=''/> : <img src="/images/user.svg" alt="" />}
                   <span>
                     Me <img src="/images/down-icon.svg" alt="" />
                   </span>
                 </a>
-                <SignOut>
-                    <a href="">Sign Out</a>
+                <SignOut onClick={() => dispatch(signOutAPI())}>
+                    <a href="" >Sign Out</a>
                 </SignOut>
               </User>
               <Work>

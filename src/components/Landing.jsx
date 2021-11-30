@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux'
-import { googleSignIn, getGoogleInfo } from '../redux/authSlice'
+import { getGoogleInfo } from '../redux/authSlice'
 import { Navigate } from "react-router"
-import { useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "@firebase/auth";
 import { auth, provider } from "../firebase";
 
@@ -14,7 +13,7 @@ function Landing() {
   const googleOnClick =  () => {
     dispatch(getGoogleInfo());
   }
-
+ 
   return (
     <Container>
       {
