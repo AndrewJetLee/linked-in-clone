@@ -122,6 +122,7 @@ const Header = styled.div`
   font-size: 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   align-items: center;
+  color: rgba(0, 0, 0, 0.6);
   button {
     height: 40px;
     width: 40px;
@@ -129,7 +130,8 @@ const Header = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    transition-property: background-color;
+    transition-duration: 0.167s; 
     :hover {
       background-color: rgba(0, 0, 0, 0.08);
     }
@@ -174,6 +176,12 @@ const UserInfo = styled.div`
       padding: 3px 10px;
       color: rgba(0, 0, 0, 0.6);
       margin-bottom: 6px; 
+      transition-property: background-color, color, box-shadow;
+      transition-duration: 0.167s; 
+      :hover {
+          background-color: rgba(0, 0, 0, 0.1);
+          box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 0px 1px inset
+      }
       span {
         padding: 0 4px;
         font-size: 14px;
