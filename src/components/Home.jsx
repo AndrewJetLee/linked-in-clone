@@ -13,10 +13,10 @@ function Home() {
 
   return (
     <>
-      {
+      {/* {
         !user && 
         <Navigate to='/'/>
-      }
+      } */}
       <Header user={user} dispatch={dispatch}/>
       <Container>
         <Section>
