@@ -4,12 +4,12 @@ import ArticleCard from './ArticleCard';
 import PostModal from './PostModal';
 
 
-export const Main = () => {
+export const Main = ({user, dispatch}) => {
     return (
         <Container>
             <Post />
             <ArticleCard />
-            <PostModal />
+            <PostModal user={user} dispatch={dispatch}/>
         </Container>
         
     )

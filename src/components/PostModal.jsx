@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-const PostModal = () => {
+const PostModal = ({user, dispatch}) => {
+  
   return (
     <Container>
       <Content>
@@ -14,7 +15,7 @@ const PostModal = () => {
         <PostContent>
           <UserInfo>
             <div>
-              <img src="/images/user.svg" alt="" />
+              <img src={user && user.photoURL ? user.photoURL : "/images/user.svg"} alt="" />
             </div>
             <div>
               <span>Andrew Lee</span>
@@ -119,10 +120,13 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 12px 24px;
-  font-size: 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   align-items: center;
-  color: rgba(0, 0, 0, 0.6);
+  h2 {
+    color: rgba(0, 0, 0, 0.9);
+      font-weight: 500; 
+      font-size: 18px;
+  }
   button {
     height: 40px;
     width: 40px;
@@ -141,7 +145,7 @@ const Header = styled.div`
 const PostContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 8px 12px 4px 12px;
+  padding: 8px 0 4px 0px;
   @media screen and (max-height: 600px) {
       height: 100%;
   }
@@ -150,7 +154,7 @@ const PostContent = styled.div`
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  padding: 12px 24px;
+  padding: 6px 24px;
   div:first-child {
     img {
       width: 48px;
@@ -173,7 +177,7 @@ const UserInfo = styled.div`
       align-items: center;
       border: 1px solid rgba(0, 0, 0, 0.6);
       border-radius: 20px;
-      padding: 3px 10px;
+      padding: 4px 12px;
       color: rgba(0, 0, 0, 0.6);
       margin-bottom: 6px; 
       transition-property: background-color, color, box-shadow;
@@ -195,7 +199,7 @@ const UserInfo = styled.div`
   }
 `;
 
-const PostInput = styled.div`
+const PostInput = styled.form`
   height: 100%;
   margin: 12px 24px;
   textarea {
@@ -210,6 +214,7 @@ const ShareBottom = styled.div`
   display: flex;
   flex-direction: column;
   div:first-child {
+    margin-left: 10px; 
     margin-bottom: 14px;
     button {
       margin-left: 4px;
@@ -277,5 +282,7 @@ const PostButtons = styled.div`
   }
   button:last-child {
     background-color: rgba(0, 0, 0, 0.08);
+    padding: 8px 16px; 
+    margin-right: 20px; 
   }
 `;

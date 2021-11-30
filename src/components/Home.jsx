@@ -13,10 +13,10 @@ function Home() {
 
   return (
     <>
-      {/* {
+      {
         !user && 
         <Navigate to='/'/>
-      } */}
+      }
       <Header user={user} dispatch={dispatch}/>
       <Container>
         <Section>
@@ -32,7 +32,7 @@ function Home() {
         </Section>
         <Layout>
           <Left user={user} dispatch={dispatch}/>
-          <Main/>
+          <Main user={user} dispatch={dispatch}/>
           <Right/>
         </Layout>
       </Container>
