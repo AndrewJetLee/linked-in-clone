@@ -34,3 +34,13 @@ textarea {
   resize: none; 
   font-family: inherit;
 }
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1; 
+  }
+}

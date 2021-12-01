@@ -38,7 +38,6 @@ function Header({user, dispatch}) {
                 <span>Notifications</span>
               </a>
               <User>
-                
                 <a href="">
                   {user && user.photoURL ? <img src={user.photoURL} alt=''/> : <img src="/images/user.svg" alt="" />}
                   <span>

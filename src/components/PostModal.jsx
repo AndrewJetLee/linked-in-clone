@@ -1,21 +1,43 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-const PostModal = ({user, dispatch}) => {
-  
+const PostModal = ({ toggleModal, user, dispatch }) => {
+  const [postText, setPostText] = useState("");
+  const [postImage, setPostImage] = useState("");
+
+  const handleImageChange = (e) => {
+    let image = e.target.files[0];
+    if (!image) {
+      alert("Invalid image or file");
+      return;
+    }
+    setPostImage(image);
+  };
+
+  const handleChange = (e) => {
+    setPostText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Container>
       <Content>
         <Header>
           <h2>Create a post</h2>
-          <button>
+          <button onClick={(e) => toggleModal(false)}>
             <img src="/images/close-icon.svg" alt="" />
           </button>
         </Header>
         <PostContent>
           <UserInfo>
             <div>
-              <img src={user && user.photoURL ? user.photoURL : "/images/user.svg"} alt="" />
+              <img
+                src={user && user.photoURL ? user.photoURL : "/images/user.svg"}
+                alt=""
+              />
             </div>
             <div>
               <span>Andrew Lee</span>
@@ -28,12 +50,25 @@ const PostModal = ({user, dispatch}) => {
           </UserInfo>
           <PostInput>
             <textarea
-              name=""
-              id=""
-              cols="30"
-              rows="10"
+              onChange={handleChange}
+              value={postText}
+              autoFocus={true}
               placeholder="What do you want to talk about?"
             ></textarea>
+            <UploadImage>
+              <input
+                type="file"
+                accept="image/gif, image/jpeg, image/png"
+                name="image"
+                id="file"
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
+              <p>
+                <label htmlFor="file">Select an image to share</label>
+              </p>
+              {postImage && <img src={URL.createObjectURL(postImage)}/>}
+            </UploadImage>
           </PostInput>
           <ShareBottom>
             <div>
@@ -46,7 +81,7 @@ const PostModal = ({user, dispatch}) => {
                   viewBox="0 0 24 24"
                   data-supported-dps="24x24"
                   fill="currentColor"
-                  class="mercado-match"
+                  className="mercado-match"
                   width="24"
                   height="24"
                   focusable="false"
@@ -56,12 +91,13 @@ const PostModal = ({user, dispatch}) => {
                     d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"
                   ></path>
                 </svg>
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   data-supported-dps="24x24"
                   fill="currentColor"
-                  class="mercado-match"
+                  className="mercado-match"
                   width="24"
                   height="24"
                   focusable="false"
@@ -77,7 +113,9 @@ const PostModal = ({user, dispatch}) => {
                   <img src="/images/comment.svg" alt="" />
                   Anyone
                 </button>
-                <button>Post</button>
+                <PostButton disabled={!postText ? true : false}>
+                  Post
+                </PostButton>
               </PostButtons>
             </div>
           </ShareBottom>
@@ -97,6 +135,7 @@ const Container = styled.div`
   width: 100vw;
   z-index: 10000;
   background-color: rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.2s;
 `;
 const Content = styled.div`
   width: 552px;
@@ -124,8 +163,8 @@ const Header = styled.div`
   align-items: center;
   h2 {
     color: rgba(0, 0, 0, 0.9);
-      font-weight: 500; 
-      font-size: 18px;
+    font-weight: 500;
+    font-size: 18px;
   }
   button {
     height: 40px;
@@ -135,7 +174,7 @@ const Header = styled.div`
     justify-content: center;
     align-items: center;
     transition-property: background-color;
-    transition-duration: 0.167s; 
+    transition-duration: 0.167s;
     :hover {
       background-color: rgba(0, 0, 0, 0.08);
     }
@@ -147,7 +186,7 @@ const PostContent = styled.div`
   flex-direction: column;
   padding: 8px 0 4px 0px;
   @media screen and (max-height: 600px) {
-      height: 100%;
+    height: 100%;
   }
 `;
 
@@ -179,12 +218,12 @@ const UserInfo = styled.div`
       border-radius: 20px;
       padding: 4px 12px;
       color: rgba(0, 0, 0, 0.6);
-      margin-bottom: 6px; 
+      margin-bottom: 6px;
       transition-property: background-color, color, box-shadow;
-      transition-duration: 0.167s; 
+      transition-duration: 0.167s;
       :hover {
-          background-color: rgba(0, 0, 0, 0.1);
-          box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 0px 1px inset
+        background-color: rgba(0, 0, 0, 0.1);
+        box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 0px 1px inset;
       }
       span {
         padding: 0 4px;
@@ -206,7 +245,6 @@ const PostInput = styled.form`
     width: 100%;
     height: 96px;
     font-size: 15px;
-    
   }
 `;
 
@@ -214,7 +252,7 @@ const ShareBottom = styled.div`
   display: flex;
   flex-direction: column;
   div:first-child {
-    margin-left: 10px; 
+    margin-left: 10px;
     margin-bottom: 14px;
     button {
       margin-left: 4px;
@@ -265,10 +303,6 @@ const PostButtons = styled.div`
     border-radius: 20px;
     transition-property: background-color, color;
     transition-duration: 0.167s;
-    :hover {
-      background-color: rgba(0, 0, 0, 0.08);
-      color: rgba(0, 0, 0, 0.7);
-    }
   }
   button:first-child {
     display: flex;
@@ -279,10 +313,27 @@ const PostButtons = styled.div`
       height: 18px;
       width: 18px;
     }
+    :hover {
+      background-color: rgba(0, 0, 0, 0.08);
+      color: rgba(0, 0, 0, 0.7);
+    }
   }
-  button:last-child {
-    background-color: rgba(0, 0, 0, 0.08);
-    padding: 8px 16px; 
-    margin-right: 20px; 
-  }
+`;
+
+const PostButton = styled.button`
+  background: ${(props) =>
+    props.disabled ? "rgba(0, 0, 0, 0.08)" : "rgb(22, 70, 119)"};
+  padding: 8px 16px;
+  margin-right: 20px;
+  color: ${(props) =>
+    props.disabled ? "rgba(0, 0, 0, 0.4)" : "rgb(255, 255, 255)"};
+  cursor: ${(props) => (props.disabled ? "auto" : "pointer")};
+`;
+
+const UploadImage = styled.div`
+    text-align: center;
+    img {
+        width: 100px; 
+        height: 100px; 
+    }
 `;

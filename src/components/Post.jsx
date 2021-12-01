@@ -1,13 +1,21 @@
 import React from 'react'
 import styled from 'styled-components';
+import PostModal from './PostModal';
+import { useState } from "react";
 
-const Post = () => {
+const Post = ({user, dispatch}) => {
+    const [modalActive, toggleModal] = useState(false);
+
+    const handleClick = (e) => {
+        toggleModal(true);
+    }
+
     return (
         <Container>
             <PostCard>
                 <Top>
                     <img src="/images/user.svg" alt="" />
-                    <button>Start a post</button>
+                    <button onClick={handleClick}>Start a post</button>
                 </Top>
                 <Bottom>
                     <Photo>
@@ -36,6 +44,9 @@ const Post = () => {
                     <img src="/images/down-icon.svg" alt="" />
                 </div>
             </SortButton>
+            {modalActive ? <PostModal toggleModal={toggleModal} user={user} dispatch={dispatch}/> : null}
+            
+
         </Container>
     )
 }
