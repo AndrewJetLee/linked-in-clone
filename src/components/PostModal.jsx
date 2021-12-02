@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import { useState } from "react";
+import ReactPlayer from "react-player";
+import { postArticleAPI } from "../redux/articleSlice";
 
 const PostModal = ({ toggleModal, user, dispatch }) => {
   const [postText, setPostText] = useState("");
   const [postImage, setPostImage] = useState("");
+  const [videoLink, setVideoLink] = useState("");
+  const [showVideoInput, toggleVideoInput] = useState(false);
 
   const handleImageChange = (e) => {
     let image = e.target.files[0];
@@ -20,6 +24,12 @@ const PostModal = ({ toggleModal, user, dispatch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let article = {
+        user: user.displayName,
+        description: postText,
+        image: postImage
+    }
+    dispatch(postArticleAPI(article))
   };
 
   return (
@@ -40,7 +50,7 @@ const PostModal = ({ toggleModal, user, dispatch }) => {
               />
             </div>
             <div>
-              <span>Andrew Lee</span>
+              <span>{user.displayName}</span>
               <button>
                 <img src="/images/globe.svg" alt="" />
                 <span>Anyone</span>
@@ -60,60 +70,86 @@ const PostModal = ({ toggleModal, user, dispatch }) => {
                 type="file"
                 accept="image/gif, image/jpeg, image/png"
                 name="image"
-                id="file"
+                id="image-file"
                 style={{ display: "none" }}
                 onChange={handleImageChange}
               />
-              <p>
-                <label htmlFor="file">Select an image to share</label>
-              </p>
-              {postImage && <img src={URL.createObjectURL(postImage)}/>}
+              {postImage && <img src={URL.createObjectURL(postImage)} />}
             </UploadImage>
           </PostInput>
           <ShareBottom>
-            <div>
+            <div className="hashtag">
               <button href="">Add Hashtag</button>
             </div>
+            {showVideoInput ? (
+              <div className="video-url-input">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Please input a video link"
+                    value={videoLink}
+                    onChange={(e) => setVideoLink(e.target.value)}
+                  />
+                </div>
+                {videoLink && ReactPlayer.canPlay(videoLink) ? (
+                  <ReactPlayer width={"100%"} url={videoLink} />
+                ) : null}
+              </div>
+            ) : null}
             <div>
               <ShareIcons>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  data-supported-dps="24x24"
-                  fill="currentColor"
-                  className="mercado-match"
-                  width="24"
-                  height="24"
-                  focusable="false"
-                >
-                  <path
-                    fill="rgba(0, 0, 0, 0.6)"
-                    d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"
-                  ></path>
-                </svg>
+                <div className="image-upload">
+                  <label htmlFor="image-file">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      data-supported-dps="24x24"
+                      fill="currentColor"
+                      className="mercado-match"
+                      width="24"
+                      height="24"
+                      focusable="false"
+                    >
+                      <path
+                        fill="rgba(0, 0, 0, 0.6)"
+                        d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"
+                      ></path>
+                    </svg>
+                  </label>
+                </div>
 
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  data-supported-dps="24x24"
-                  fill="currentColor"
-                  className="mercado-match"
-                  width="24"
-                  height="24"
-                  focusable="false"
+                <div
+                  className="video-upload"
+                  onClick={() => toggleVideoInput(true)}
                 >
-                  <path
-                    fill="rgba(0, 0, 0, 0.6)"
-                    d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm-9 12V8l6 4z"
-                  ></path>
-                </svg>
+                  <label htmlFor="video-file">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      data-supported-dps="24x24"
+                      fill="currentColor"
+                      className="mercado-match"
+                      width="24"
+                      height="24"
+                      focusable="false"
+                    >
+                      <path
+                        fill="rgba(0, 0, 0, 0.6)"
+                        d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm-9 12V8l6 4z"
+                      ></path>
+                    </svg>
+                  </label>
+                </div>
               </ShareIcons>
               <PostButtons>
                 <button>
                   <img src="/images/comment.svg" alt="" />
                   Anyone
                 </button>
-                <PostButton disabled={!postText ? true : false}>
+                <PostButton
+                  onClick={handleSubmit}
+                  disabled={!postText ? true : false}
+                >
                   Post
                 </PostButton>
               </PostButtons>
@@ -148,6 +184,7 @@ const Content = styled.div`
   flex-direction: column;
   position: relative;
   top: 32px;
+
   @media screen and (max-height: 600px) {
     top: 0;
     height: 100vh;
@@ -185,6 +222,7 @@ const PostContent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 8px 0 4px 0px;
+
   @media screen and (max-height: 600px) {
     height: 100%;
   }
@@ -241,6 +279,7 @@ const UserInfo = styled.div`
 const PostInput = styled.form`
   height: 100%;
   margin: 12px 24px;
+  overflow-y: auto;
   textarea {
     width: 100%;
     height: 96px;
@@ -251,7 +290,7 @@ const PostInput = styled.form`
 const ShareBottom = styled.div`
   display: flex;
   flex-direction: column;
-  div:first-child {
+  .hashtag {
     margin-left: 10px;
     margin-bottom: 14px;
     button {
@@ -279,10 +318,29 @@ const ShareIcons = styled.div`
   display: flex;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 2px 0;
-  svg:first-child {
+  align-items: center;
+  div {
+    padding: 8px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    :hover {
+      background-color: rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+    }
+    label {
+      height: 24px;
+      :hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .image-upload {
+    border-radius: 50%;
     margin-left: 12px;
   }
-  svg:last-child {
+  .video-upload {
+    border-radius: 50%;
     margin-left: 17px;
     margin-right: 20px;
   }
@@ -331,9 +389,24 @@ const PostButton = styled.button`
 `;
 
 const UploadImage = styled.div`
-    text-align: center;
-    img {
-        width: 100px; 
-        height: 100px; 
+  text-align: center;
+  img {
+    width: 100%;
+    height: auto;
+  }
+  .video-url-input {
+    display: flex;
+    flex-direction: column;
+    div:first-child {
+      display: block;
     }
+    input {
+      margin-right: auto;
+      display: block;
+
+      margin-left: 0;
+      width: 100%;
+      height: 10px;
+    }
+  }
 `;
