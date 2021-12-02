@@ -2,8 +2,6 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux'
 import { getGoogleInfo } from '../redux/authSlice'
 import { Navigate } from "react-router"
-import { signInWithPopup, GoogleAuthProvider } from "@firebase/auth";
-import { auth, provider } from "../firebase";
 
 function Landing() {
  

@@ -1,18 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth, provider } from "../firebase";
-import { signInWithPopup, GoogleAuthProvider, signOut } from "@firebase/auth";
-
+import { setPersistence, signInWithPopup, signOut, browserSessionPersistence  } from "@firebase/auth";
 
 
 export const getGoogleInfo = () => {
   return (dispatch, getState) => {
-    // make async call to google api
+    //Make async call
     signInWithPopup(auth, provider)
     .then((result) => {
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // const token = credential.accessToken;
-      const user = result.user; 
-      dispatch(googleSignIn(user));
+        const user = result.user; 
+        dispatch(googleSignIn(user));
     })
     .catch((err) => {
       console.log(err);
@@ -22,7 +19,7 @@ export const getGoogleInfo = () => {
 
 export const signOutAPI = () => {
   return (dispatch, getState) => {
-    signOut()
+    auth.signOut()
     .then(() => {
       console.log('Successfully logged Out')
       dispatch(userSignOut())
