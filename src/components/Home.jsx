@@ -5,16 +5,24 @@ import { Main } from "./Main";
 import { Right } from "./Right";
 import { Left } from "./Left";
 import { useSelector, useDispatch } from 'react-redux'
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth"
+import { googleSignIn } from "../redux/authSlice"
 
 function Home() {
 
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  
+  //Idk why, but this keeps my auth persisting
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(googleSignIn(currentUser))
+  })
 
   return (
     <>
       {
-        !user && 
+        !auth.currentUser && 
         <Navigate to='/'/>
       }
       <Header user={user} dispatch={dispatch}/>
@@ -54,11 +62,6 @@ const Container = styled.div`
   min-height: 100%;
 `;
 
-const Content = styled.div`
-  max-width: 1128px;
-  margin-left: auto;
-  margin-right: auto;
-`;
 
 const Section = styled.div`
   height: auto;
