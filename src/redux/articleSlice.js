@@ -1,37 +1,92 @@
 import { createSlice } from "@reduxjs/toolkit";
-import db from "../firebase";
+import db, { storage } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { collection, doc, setDoc, addDoc } from "firebase/firestore";
 
 // Action creators
 export const postArticleAPI = (article) => {
-    return (dispatch, getState) => {
+  return (dispatch, getState) => {
+    // if image exists, store the image or video into cloud
+    if (article.image) {
+      const storageRef = ref(storage, `/images/${article.image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, article.image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          console.log(prog);
+        },
+        (err) => console.log(err),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            article.image = url;
+            const articlesRef = collection(db, "articles");
+            addDoc(articlesRef, {
+              actor: {
+                description: article.user.email,
+                title: article.user.displayName,
+                image: article.user.photoURL,
+              },
+              video: article.video,
+              sharedImg: url,
+              comments: 0,
+              description: article.description,
+            })
+              .then((payload) => {
+                console.log("Added article: ", payload);
+                dispatch(updateArticles(article));
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        }
+      );
+    } else {
       const articlesRef = collection(db, "articles");
-      addDoc(articlesRef, article)
-      .then((payload) => {
-        console.log("Added article: ", payload);
-        dispatch(updateArticles(article))
+      addDoc(articlesRef, {
+        actor: {
+          description: article.user.email,
+          title: article.user.displayName,
+          image: article.user.photoURL,
+        },
+        video: article.video,
+        sharedImg: article.image,
+        comments: 0,
+        description: article.description,
       })
-      .catch((err) => {
-        console.log(err);
-      })
+        .then((payload) => {
+          console.log("Added article: ", payload);
+          dispatch(updateArticles(article));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-}
+  };
+};
+
+// Helper functions
+// const upload
+
+
 
 export const articleSlice = createSlice({
-    name: "article",
-    initialState: {
-      articles: [],
+  name: "article",
+  initialState: {
+    articles: [],
+  },
+  reducers: {
+    updateArticles(state, action) {
+        state.articles.push(action.payload)
     },
-    reducers: {
-      updateArticles: (state, action) => {
-        return {
-            acticles: [...state.articles, action.payload],
-        }
-      },
-    },
-  });
-  
-  // Action creators are generated for each case reducer function
-  export const { updateArticles } = articleSlice.actions;
-  
-  export default articleSlice.reducer;
+  },
+});
+
+// Action creators are generated for each case reducer function
+export const { updateArticles } = articleSlice.actions;
+
+export default articleSlice.reducer;
