@@ -12,7 +12,7 @@ const ArticleCard = ({ article }) => {
           <div>
             <a>{article.actor.title}</a>
             <span>62,951 followers</span>
-            <span>Promoted</span>
+            <span>{article.date.toDate().toLocaleDateString()}</span>
           </div>
 
           <DotMenu>

@@ -50,7 +50,6 @@ export const postArticleAPI = (article) => {
             }
             addDoc(articlesRef, payload)
               .then((data) => {
-                debugger; 
                 console.log("Added article: ", payload);
                 dispatch(updateArticles(payload));
                 dispatch(setLoadingStatus(false));
@@ -93,14 +92,15 @@ export const postArticleAPI = (article) => {
 // order the docs by date
 export const getArticlesAPI = () => {
   return (dispatch) => {
-    let payload; 
-    // debugger; 
+    let payload;  
     const q = query(articlesRef, orderBy("date", "desc"));
-    debugger; 
-    onSnapshot(q, (snapshot) => {    
-      
+    // onSnapshot(q, (snapshot) => {    
+    //   payload = snapshot.docs.map((doc) => doc.data());
+    //   dispatch(getArticles(payload))
+    // })
+    getDocs(q)
+    .then((snapshot) => {
       payload = snapshot.docs.map((doc) => doc.data());
-      debugger; 
       dispatch(getArticles(payload))
     })
   };
@@ -122,7 +122,7 @@ export const articleSlice = createSlice({
       state.articles = [...action.payload]
     },
     updateArticles(state, action) {
-      state.articles.push(action.payload);
+      state.articles.unshift(action.payload);
     },
     setLoadingStatus(state, action) {
       state.loading = action.payload;

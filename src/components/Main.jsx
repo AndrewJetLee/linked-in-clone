@@ -3,7 +3,7 @@ import Post from "./Post";
 import ArticleCard from "./ArticleCard";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getArticlesAPI } from "../redux/articleSlice"
+import { getArticlesAPI } from "../redux/articleSlice";
 
 export const Main = ({ user, dispatch }) => {
   const articles = useSelector((state) => state.article.articles);
@@ -11,17 +11,18 @@ export const Main = ({ user, dispatch }) => {
 
   useEffect(() => {
     dispatch(getArticlesAPI());
-  }, [])
+  }, []);
 
   return (
     <Container>
       <Post user={user} dispatch={dispatch} />
       {loading ? (
-        <Loading><img src="/images/loading.svg" alt="" /></Loading>
+        <Loading>
+          <img src="/images/loading.svg" alt="" />
+        </Loading>
       ) : null}
-      
-      {articles.map((article) => (
-          <ArticleCard article={article} />
+      {articles.map((article, i) => (
+        <ArticleCard key={i} article={article} />
       ))}
     </Container>
   );
