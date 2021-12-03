@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ReactPlayer from "react-player";
 
 const ArticleCard = ({ article }) => {
   return (
@@ -22,15 +23,11 @@ const ArticleCard = ({ article }) => {
 
         <ArticleInfo>
           <p>{article.description}</p>
-          {article.sharedImg ? (
+          {article.sharedImg && !article.video ?  (
             <img src={article.sharedImg} alt="" />
           ) : (
-            null
+            article.video && <ReactPlayer width={`100%`} url={article.video}/>
           )}
-          <div>
-            <h3>Quagmire</h3>
-            <button>Learn More</button>
-          </div>
         </ArticleInfo>
 
         <SocialReaction>
@@ -41,6 +38,7 @@ const ArticleCard = ({ article }) => {
                 alt=""
               />
             </button>
+            <span>{article.comments}</span>
           </SocialCount>
 
           <SocialResponse>
@@ -135,39 +133,11 @@ const DotMenu = styled.a`
 `;
 
 const ArticleInfo = styled.div`
+  
   p {
     font-size: 14px;
     margin-bottom: 10px;
     padding: 12px 10px 0 16px;
-  }
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: -7px;
-    background-color: rgba(238, 243, 248);
-    height: 50px;
-    padding: 0 12px;
-
-    h3 {
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.8);
-    }
-    button {
-      display: flex;
-      font-size: 14px;
-      align-items: center;
-      border-radius: 16px;
-      border: 1px solid;
-      height: 32px;
-      color: #0a66c2;
-      font-weight: 600;
-      padding: 6px 16px;
-      :hover {
-        background-color: rgba(112, 181, 249, 0.2);
-        box-shadow: inset 0 0 0 1px #0a66c2;
-      }
-    }
   }
 `;
 
