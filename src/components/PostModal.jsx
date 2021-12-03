@@ -25,11 +25,13 @@ const PostModal = ({ toggleModal, user, dispatch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let article = {
-        user: user.displayName,
+        user,
         description: postText,
-        image: postImage
+        image: postImage,
+        video: videoLink,
     }
-    dispatch(postArticleAPI(article))
+    dispatch(postArticleAPI(article));
+    toggleModal(false);
   };
 
   return (
