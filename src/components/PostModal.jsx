@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { postArticleAPI } from "../redux/articleSlice";
+import { Timestamp } from "@firebase/firestore";
 
 const PostModal = ({ toggleModal, user, dispatch }) => {
   const [postText, setPostText] = useState("");
@@ -29,6 +30,7 @@ const PostModal = ({ toggleModal, user, dispatch }) => {
         description: postText,
         image: postImage,
         video: videoLink,
+        date: Timestamp.now(),
     }
     dispatch(postArticleAPI(article));
     toggleModal(false);
