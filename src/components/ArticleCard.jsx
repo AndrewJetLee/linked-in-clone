@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
-const ArticleCard = () => {
+const ArticleCard = ({ article }) => {
   return (
     <Container>
       <Card>
         <AuthorInfo>
-          <img src="/images/user.svg" alt="" />
+          <img
+            src={article.actor.image ? article.actor.image : "/images/user.svg"}
+            alt=""
+          />
           <div>
-            <a>Therabody</a>
+            <a>{article.actor.title}</a>
             <span>62,951 followers</span>
             <span>Promoted</span>
           </div>
@@ -18,13 +21,12 @@ const ArticleCard = () => {
         </AuthorInfo>
 
         <ArticleInfo>
-          <p>
-            Whether volunteering, leading a service organization, or mentoring
-            others, there are many ways the LMU family connects and serves. Meet
-            the Lions leading the charge as people for and with others. Be
-            inspired here:
-          </p>
-          <img src="/images/placeholder.jpg" alt="" />
+          <p>{article.description}</p>
+          {article.sharedImg ? (
+            <img src={article.sharedImg} alt="" />
+          ) : (
+            null
+          )}
           <div>
             <h3>Quagmire</h3>
             <button>Learn More</button>
@@ -153,7 +155,7 @@ const ArticleInfo = styled.div`
     }
     button {
       display: flex;
-      font-size: 14px; 
+      font-size: 14px;
       align-items: center;
       border-radius: 16px;
       border: 1px solid;
@@ -177,34 +179,34 @@ const SocialReaction = styled.div`
 `;
 
 const SocialCount = styled.div`
-    padding-top: 4px; 
+  padding-top: 4px;
 `;
 
 const SocialResponse = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 4px; 
-  padding-bottom: 4px; 
+  padding-top: 4px;
+  padding-bottom: 4px;
   display: flex;
   justify-content: space-around;
-  align-items: center; 
-  
+  align-items: center;
+
   button {
-    display: flex; 
-    align-items: center; 
-    height: 29px; 
+    display: flex;
+    align-items: center;
+    height: 29px;
     width: auto;
     padding: 24px 28px;
-    border-radius: 5px;  
+    border-radius: 5px;
     /* margin-left: -22px;  */
     img {
-        width: 24px;
-        height: 24px; 
+      width: 24px;
+      height: 24px;
     }
     span {
-        font-size: 14px; 
+      font-size: 14px;
     }
     :hover {
-        background-color: rgba(0, 0, 0, 0.08)
+      background-color: rgba(0, 0, 0, 0.08);
     }
   }
 `;
