@@ -2,9 +2,16 @@ import styled from "styled-components";
 import Post from "./Post";
 import ArticleCard from "./ArticleCard";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export const Main = ({ user, dispatch }) => {
+  const articles = useSelector((state) => state.article.articles);
   const loading = useSelector((state) => state.article.loading);
+
+  useEffect(() => {
+    
+  }, [])
+
   return (
     <Container>
       <Post user={user} dispatch={dispatch} />

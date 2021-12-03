@@ -31,6 +31,7 @@ export const postArticleAPI = (article) => {
                 title: article.user.displayName,
                 image: article.user.photoURL,
               },
+              date: article.date, 
               video: article.video,
               sharedImg: url,
               comments: 0,
@@ -56,6 +57,7 @@ export const postArticleAPI = (article) => {
           title: article.user.displayName,
           image: article.user.photoURL,
         },
+        date: article.date, 
         video: article.video,
         sharedImg: article.image,
         comments: 0,
@@ -73,10 +75,17 @@ export const postArticleAPI = (article) => {
   };
 };
 
+
+
+export const getArticleAPI = () => {
+  return (dispatch) => {
+
+  }
+}
+
+
 // Helper functions
 // const upload
-
-
 
 export const articleSlice = createSlice({
   name: "article",
