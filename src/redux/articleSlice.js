@@ -1,7 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import db, { storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
-import { collection, doc, setDoc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  addDoc,
+  query,
+  orderBy,
+  getDocs,
+} from "firebase/firestore";
+
+// Collection references
+const articlesRef = collection(db, "articles");
 
 // Action creators
 export const postArticleAPI = (article) => {
@@ -24,22 +35,22 @@ export const postArticleAPI = (article) => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             article.image = url;
-            const articlesRef = collection(db, "articles");
-            addDoc(articlesRef, {
+            let payload = {
               actor: {
                 description: article.user.email,
                 title: article.user.displayName,
                 image: article.user.photoURL,
               },
-              date: article.date, 
+              date: article.date,
               video: article.video,
               sharedImg: url,
               comments: 0,
               description: article.description,
-            })
-              .then((payload) => {
+            }
+            addDoc(articlesRef, payload)
+              .then((data) => {
                 console.log("Added article: ", payload);
-                dispatch(updateArticles(article));
+                dispatch(updateArticles(payload));
                 dispatch(setLoadingStatus(false));
               })
               .catch((err) => {
@@ -50,22 +61,23 @@ export const postArticleAPI = (article) => {
       );
     } else {
       dispatch(setLoadingStatus(true));
-      const articlesRef = collection(db, "articles");
-      addDoc(articlesRef, {
+      let payload = {
         actor: {
           description: article.user.email,
           title: article.user.displayName,
           image: article.user.photoURL,
         },
-        date: article.date, 
+        date: article.date,
         video: article.video,
-        sharedImg: article.image,
+        sharedImg: "",
         comments: 0,
         description: article.description,
-      })
-        .then((payload) => {
+      };
+
+      addDoc(articlesRef, payload)
+        .then((data) => {
           console.log("Added article: ", payload);
-          dispatch(updateArticles(article));
+          dispatch(updateArticles(payload));
           dispatch(setLoadingStatus(false));
         })
         .catch((err) => {
@@ -76,17 +88,24 @@ export const postArticleAPI = (article) => {
 };
 
 
-
-export const getArticleAPI = () => {
+// order the docs by date
+export const getArticlesAPI = () => {
   return (dispatch) => {
-
-  }
-}
-
+    let payload;  
+    const q = query(articlesRef, orderBy("date", "desc"));
+    getDocs(q)
+    .then((snapshot) => {
+      payload = snapshot.docs.map((doc) => doc.data());
+      dispatch(getArticles(payload))
+    })
+  };
+};
 
 // Helper functions
 // const upload
 
+
+// Slice
 export const articleSlice = createSlice({
   name: "article",
   initialState: {
@@ -94,16 +113,19 @@ export const articleSlice = createSlice({
     articles: [],
   },
   reducers: {
+    getArticles(state, action) {
+      state.articles = [...action.payload]
+    },
     updateArticles(state, action) {
-      state.articles.push(action.payload)
+      state.articles.unshift(action.payload);
     },
     setLoadingStatus(state, action) {
       state.loading = action.payload;
-    }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateArticles, setLoadingStatus } = articleSlice.actions;
+export const { updateArticles, setLoadingStatus, getArticles } = articleSlice.actions;
 
 export default articleSlice.reducer;

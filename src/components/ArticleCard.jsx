@@ -1,15 +1,19 @@
 import styled from "styled-components";
+import ReactPlayer from "react-player";
 
-const ArticleCard = () => {
+const ArticleCard = ({ article }) => {
   return (
     <Container>
       <Card>
         <AuthorInfo>
-          <img src="/images/user.svg" alt="" />
+          <img
+            src={article.actor.image ? article.actor.image : "/images/user.svg"}
+            alt=""
+          />
           <div>
-            <a>Therabody</a>
+            <a>{article.actor.title}</a>
             <span>62,951 followers</span>
-            <span>Promoted</span>
+            <span>{article.date.toDate().toLocaleDateString()}</span>
           </div>
 
           <DotMenu>
@@ -18,17 +22,12 @@ const ArticleCard = () => {
         </AuthorInfo>
 
         <ArticleInfo>
-          <p>
-            Whether volunteering, leading a service organization, or mentoring
-            others, there are many ways the LMU family connects and serves. Meet
-            the Lions leading the charge as people for and with others. Be
-            inspired here:
-          </p>
-          <img src="/images/placeholder.jpg" alt="" />
-          <div>
-            <h3>Quagmire</h3>
-            <button>Learn More</button>
-          </div>
+          <p>{article.description}</p>
+          {article.sharedImg && !article.video ?  (
+            <img src={article.sharedImg} alt="" />
+          ) : (
+            article.video && <ReactPlayer width={`100%`} url={article.video}/>
+          )}
         </ArticleInfo>
 
         <SocialReaction>
@@ -39,6 +38,7 @@ const ArticleCard = () => {
                 alt=""
               />
             </button>
+            <span>{article.comments}</span>
           </SocialCount>
 
           <SocialResponse>
@@ -133,39 +133,11 @@ const DotMenu = styled.a`
 `;
 
 const ArticleInfo = styled.div`
+  
   p {
     font-size: 14px;
     margin-bottom: 10px;
     padding: 12px 10px 0 16px;
-  }
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: -7px;
-    background-color: rgba(238, 243, 248);
-    height: 50px;
-    padding: 0 12px;
-
-    h3 {
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.8);
-    }
-    button {
-      display: flex;
-      font-size: 14px; 
-      align-items: center;
-      border-radius: 16px;
-      border: 1px solid;
-      height: 32px;
-      color: #0a66c2;
-      font-weight: 600;
-      padding: 6px 16px;
-      :hover {
-        background-color: rgba(112, 181, 249, 0.2);
-        box-shadow: inset 0 0 0 1px #0a66c2;
-      }
-    }
   }
 `;
 
@@ -177,34 +149,34 @@ const SocialReaction = styled.div`
 `;
 
 const SocialCount = styled.div`
-    padding-top: 4px; 
+  padding-top: 4px;
 `;
 
 const SocialResponse = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 4px; 
-  padding-bottom: 4px; 
+  padding-top: 4px;
+  padding-bottom: 4px;
   display: flex;
   justify-content: space-around;
-  align-items: center; 
-  
+  align-items: center;
+
   button {
-    display: flex; 
-    align-items: center; 
-    height: 29px; 
+    display: flex;
+    align-items: center;
+    height: 29px;
     width: auto;
     padding: 24px 28px;
-    border-radius: 5px;  
+    border-radius: 5px;
     /* margin-left: -22px;  */
     img {
-        width: 24px;
-        height: 24px; 
+      width: 24px;
+      height: 24px;
     }
     span {
-        font-size: 14px; 
+      font-size: 14px;
     }
     :hover {
-        background-color: rgba(0, 0, 0, 0.08)
+      background-color: rgba(0, 0, 0, 0.08);
     }
   }
 `;
