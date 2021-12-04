@@ -6,7 +6,6 @@ import {
   doc,
   setDoc,
   addDoc,
-  onSnapshot,
   query,
   orderBy,
   getDocs,
@@ -94,10 +93,6 @@ export const getArticlesAPI = () => {
   return (dispatch) => {
     let payload;  
     const q = query(articlesRef, orderBy("date", "desc"));
-    // onSnapshot(q, (snapshot) => {    
-    //   payload = snapshot.docs.map((doc) => doc.data());
-    //   dispatch(getArticles(payload))
-    // })
     getDocs(q)
     .then((snapshot) => {
       payload = snapshot.docs.map((doc) => doc.data());
