@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth, provider } from "../firebase";
-import { setPersistence, signInWithPopup, signOut, browserSessionPersistence  } from "@firebase/auth";
+import { signInWithPopup} from "@firebase/auth";
 
 
 export const getGoogleInfo = () => {
   return (dispatch, getState) => {
-    //Make async call
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user; 

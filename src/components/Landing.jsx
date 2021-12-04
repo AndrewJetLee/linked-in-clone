@@ -1,28 +1,30 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux'
-import { getGoogleInfo } from '../redux/authSlice'
 import { Navigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth"
 import { googleSignIn } from "../redux/authSlice"
 
-function Landing() {
- 
-  const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
 
-  const googleOnClick =  () => {
-    dispatch(getGoogleInfo());
-  }
+function Landing() {
+
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   onAuthStateChanged(auth, (currentUser) => {
     dispatch(googleSignIn(currentUser))
   })
  
+  const handleSignIn = (e) => {
+    navigate('/login');
+  }
+
   return (
     <Container>
       {
-        auth.currentUser && 
+        user && 
         <Navigate to='/home'/>
       }
       <Nav>
@@ -31,7 +33,7 @@ function Landing() {
         </a>
         <Buttons>
           <Join>Join Now</Join>
-          <SignIn>Sign In</SignIn>
+          <SignIn onClick={handleSignIn}>Sign In</SignIn>
         </Buttons>
       </Nav>
       <Section>
@@ -42,10 +44,6 @@ function Landing() {
               <a href="">Search for a job</a>
               <a href="">Find a person you know</a>
               <a href="">Learn a new skill</a>
-              <GoogleSignIn onClick={googleOnClick}>
-                <img src="/images/google.svg" alt="" />
-                Sign in with Google
-              </GoogleSignIn>
             </HeroButtons>
           </HeroLeft>
           <HeroRight>

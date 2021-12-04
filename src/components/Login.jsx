@@ -2,6 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { getGoogleInfo } from "../redux/authSlice";
+import { onAuthStateChanged } from "firebase/auth"
+import { Navigate } from "react-router"
+import { auth } from "../firebase";
+import { googleSignIn } from "../redux/authSlice"
 
 const Login = () => {
   const user = useSelector((state) => state.auth.user);
@@ -11,10 +15,20 @@ const Login = () => {
     dispatch(getGoogleInfo());
   };
 
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(googleSignIn(currentUser))
+  })
+
   return (
     <Container>
+        {
+            user && 
+            <Navigate to='/home'/>
+        }
       <Header>
-        <img src="/images/linkedin-login-logo.svg" alt="" />
+        <a href="/">
+            <img src="/images/linkedin-login-logo.svg" alt="" />
+        </a>
       </Header>
       <SignInCard>
         <ContentHeader>
