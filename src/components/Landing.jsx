@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux'
 import { getGoogleInfo } from '../redux/authSlice'
 import { Navigate } from "react-router"
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth"
+import { googleSignIn } from "../redux/authSlice"
 
 function Landing() {
  
@@ -11,11 +14,15 @@ function Landing() {
   const googleOnClick =  () => {
     dispatch(getGoogleInfo());
   }
+
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(googleSignIn(currentUser))
+  })
  
   return (
     <Container>
       {
-        user && 
+        auth.currentUser && 
         <Navigate to='/home'/>
       }
       <Nav>

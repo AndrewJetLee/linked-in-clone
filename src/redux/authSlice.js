@@ -38,23 +38,14 @@ export const authSlice = createSlice({
     credential: null,
   },
   reducers: {
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
     emailSignIn: (state, action) => {
 
     },
     googleSignIn: (state, action) => {
-      return {
-        ...state,
-        user: action.payload
-      }
+      state.user = action.payload;
     },
     userSignOut: (state) => {
-      return {
-        ...state,
-        user: null
-      }
+      state.user = null; 
     }
   },
 });
