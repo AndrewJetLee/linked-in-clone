@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth, provider } from "../firebase";
-import { setPersistence, signInWithPopup, signOut, browserSessionPersistence  } from "@firebase/auth";
+import { signInWithPopup } from "@firebase/auth";
 
 
 export const getGoogleInfo = () => {
   return (dispatch, getState) => {
-    //Make async call
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user; 
@@ -38,23 +37,14 @@ export const authSlice = createSlice({
     credential: null,
   },
   reducers: {
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
     emailSignIn: (state, action) => {
 
     },
     googleSignIn: (state, action) => {
-      return {
-        ...state,
-        user: action.payload
-      }
+      state.user = action.payload;
     },
     userSignOut: (state) => {
-      return {
-        ...state,
-        user: null
-      }
+      state.user = null; 
     }
   },
 });

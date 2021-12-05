@@ -4,28 +4,24 @@ import { Navigate } from "react-router";
 import { Main } from "./Main";
 import { Right } from "./Right";
 import { Left } from "./Left";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth"
-import { googleSignIn } from "../redux/authSlice"
+import { onAuthStateChanged } from "firebase/auth";
+import { googleSignIn } from "../redux/authSlice";
 
 function Home() {
-
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  
-  //Idk why, but this keeps my auth persisting
-  onAuthStateChanged(auth, (currentUser) => {
-    dispatch(googleSignIn(currentUser))
-  })
 
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(googleSignIn(currentUser));
+  });
+  
   return (
     <>
-      {
-        !auth.currentUser && 
-        <Navigate to='/'/>
-      }
-      <Header user={user} dispatch={dispatch}/>
+      {!auth.currentUser && <Navigate to="/" />}
+
+      <Header user={user} dispatch={dispatch} />
       <Container>
         <Section>
           <div>
@@ -39,9 +35,9 @@ function Home() {
           </div>
         </Section>
         <Layout>
-          <Left user={user} dispatch={dispatch}/>
-          <Main user={user} dispatch={dispatch}/>
-          <Right/>
+          <Left user={user} dispatch={dispatch} />
+          <Main user={user} dispatch={dispatch} />
+          <Right />
         </Layout>
       </Container>
     </>
@@ -49,8 +45,6 @@ function Home() {
 }
 
 export default Home;
-
-
 
 const Container = styled.div`
   display: flex;
@@ -62,7 +56,6 @@ const Container = styled.div`
   min-height: 100%;
 `;
 
-
 const Section = styled.div`
   height: auto;
   width: 100%;
@@ -71,7 +64,7 @@ const Section = styled.div`
   flex-direction: column;
   text-align: center;
   font-size: 15px;
-  
+
   h5,
   p {
     display: inline;
@@ -89,12 +82,14 @@ const Section = styled.div`
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: minmax(200px, 5fr) minmax(500px, 12fr) minmax(300px, 7fr);
+  grid-template-columns: minmax(200px, 5fr) minmax(500px, 12fr) minmax(
+      300px,
+      7fr
+    );
   grid-template-rows: auto;
   margin: 25px 0;
-  column-gap: 25px; 
-  grid-template-areas: 
-  "Left Main Right";
+  column-gap: 25px;
+  grid-template-areas: "Left Main Right";
   @media (max-width: ${(props) => props.theme.mobile}) {
     display: flex;
     flex-direction: column;
