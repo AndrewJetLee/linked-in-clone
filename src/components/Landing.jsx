@@ -12,7 +12,7 @@ function Landing() {
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
   onAuthStateChanged(auth, (currentUser) => {
     dispatch(googleSignIn(currentUser))
   })

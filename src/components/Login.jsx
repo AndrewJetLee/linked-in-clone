@@ -2,32 +2,45 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { getGoogleInfo } from "../redux/authSlice";
-import { onAuthStateChanged } from "firebase/auth"
-import { Navigate } from "react-router"
+import { onAuthStateChanged } from "firebase/auth";
+import { Navigate } from "react-router";
 import { auth } from "../firebase";
-import { googleSignIn } from "../redux/authSlice"
+import { googleSignIn } from "../redux/authSlice";
+import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(googleSignIn(currentUser));
+  });
 
   const googleOnClick = () => {
     dispatch(getGoogleInfo());
   };
 
-  onAuthStateChanged(auth, (currentUser) => {
-    dispatch(googleSignIn(currentUser))
-  })
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log("Logged in user: ", cred.user);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
 
+  }
+ 
   return (
     <Container>
-        {
-            user && 
-            <Navigate to='/home'/>
-        }
+      {user && <Navigate to="/home" />}
       <Header>
         <a href="/">
-            <img src="/images/linkedin-login-logo.svg" alt="" />
+          <img src="/images/linkedin-login-logo.svg" alt="" />
         </a>
       </Header>
       <SignInCard>
@@ -36,10 +49,17 @@ const Login = () => {
           <span>Stay updated on your professional world</span>
         </ContentHeader>
         <ContentForm>
-          <input type="text" placeholder="Email" />
-          <input type="text" placeholder="Password" />
+          <EmailInput>
+            <input type="text" placeholder="Email" value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </EmailInput>
+          <PasswordInput>
+            <input type="text" placeholder="Password" value={password}
+              onChange={(e) => setPassword(e.target.value)}/>
+          </PasswordInput>
           <a href="">Forgot password?</a>
-          <button>Sign In</button>
+          <button onClick={handleSubmit}>Sign In</button>
         </ContentForm>
         <AlternateSignIn>
           <Separator>
@@ -54,7 +74,9 @@ const Login = () => {
         </AlternateSignIn>
       </SignInCard>
       <Register>
-        <span>New to LinkedIn?<button> Join now</button></span>
+        <span>
+          New to LinkedIn?<a href="/signup">Join now</a>
+        </span>
       </Register>
     </Container>
   );
@@ -99,24 +121,6 @@ const ContentForm = styled.form`
   display: flex;
   flex-direction: column;
   margin: auto;
-  input {
-    height: 52px;
-    width: 100%;
-    padding: 28px 12px 6px;
-    vertical-align: center;
-    font-size: 18px;
-    vertical-align: middle;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
-    color: rgba(0, 0, 0, 0.9);
-    line-height: 30px;
-    margin-top: 24px;
-    ::placeholder {
-      position: relative;
-      bottom: 10px;
-      color: rgba(0, 0, 0, 0.5);
-    }
-  }
   a {
     text-decoration: none;
     padding: 15px 0;
@@ -132,11 +136,32 @@ const ContentForm = styled.form`
   }
 `;
 
-
-
-const AlternateSignIn = styled.div`
-    
+const EmailInput = styled.div`
+  display: flex;
+  align-items: center;
+  height: 52px;
+  width: 100%;
+  padding: 28px 12px 6px;
+  vertical-align: center;
+  font-size: 18px;
+  vertical-align: middle;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 30px;
+  margin-top: 24px;
+  input {
+    height: 30px; 
+    margin-bottom: 18px; 
+    ::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+      
+    }
+  }
 `;
+const PasswordInput = styled(EmailInput)``;
+
+const AlternateSignIn = styled.div``;
 
 export const Separator = styled.div`
   display: flex;
@@ -155,9 +180,8 @@ export const Separator = styled.div`
   }
 `;
 
-
 const GoogleSignIn = styled.button`
-  margin-top: 12px; 
+  margin-top: 12px;
   display: flex;
   justify-content: center;
   background-color: #fff;
@@ -178,11 +202,16 @@ const GoogleSignIn = styled.button`
 `;
 
 const Register = styled.div`
-    text-align: center; 
-    margin-top: 32px; 
-    font-size: 15px; 
-    button {
-        font-weight: 600;
-        margin-left: 6px; 
+  text-align: center;
+  margin-top: 32px;
+  font-size: 15px;
+  a {
+    font-weight: 600;
+    margin-left: 6px;
+    text-decoration: none; 
+    color: ${props => props.theme.colors.bluePrimary};
+    :hover {
+      text-decoration: underline; 
     }
-`
+  }
+`;
