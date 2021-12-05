@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth, provider } from "../firebase";
-import { signInWithPopup} from "@firebase/auth";
+import { signInWithPopup } from "@firebase/auth";
 
 
 export const getGoogleInfo = () => {

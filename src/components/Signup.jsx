@@ -1,9 +1,44 @@
 import { Separator } from "./Login";
 import styled from "styled-components";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom"
+import { onAuthStateChanged } from "firebase/auth"
+import { googleSignIn } from "../redux/authSlice"
 
 const Signup = () => {
+  
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+ 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+        console.log("user created: ", cred.user);
+        signInWithEmailAndPassword(auth, email, password)
+        .then((cred) => {
+            console.log("user logged in: ", cred.user);
+            
+        })
+    })
+    .catch((err) => {
+        console.log(err.message);
+    })
+  }
+
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(googleSignIn(currentUser))
+  })
+
   return (
     <Container>
+        { auth.currentUser && <Navigate to="/home"/>}
       <Header>
         <div>
           <img src="/images/linkedin-login-logo.svg" alt="" />
@@ -14,11 +49,11 @@ const Signup = () => {
         <SignUpForm>
           <label htmlFor="">Email</label>
           <EmailInput>
-            <input type="text" />
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
           </EmailInput>
           <label htmlFor="">Password (6 or more characters)</label>
           <PasswordInput>
-            <input type="text" />
+            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
           </PasswordInput>
           <div>
             <p>
@@ -27,7 +62,7 @@ const Signup = () => {
               .
             </p>
           </div>
-          <button>Agree and Join</button>
+          <button onClick={handleSubmit}>Agree and Join</button>
         </SignUpForm>
         <Separator>
           <hr />
