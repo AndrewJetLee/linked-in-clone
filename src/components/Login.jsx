@@ -138,7 +138,7 @@ const AlternateSignIn = styled.div`
     
 `;
 
-const Separator = styled.div`
+export const Separator = styled.div`
   display: flex;
   align-items: center;
   margin-top: 12px;

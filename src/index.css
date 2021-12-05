@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  
   margin: 0;
   padding: 0; 
   vertical-align: baseline;
@@ -35,6 +34,15 @@ textarea {
   font-family: inherit;
 }
 
+input {
+  outline: none;
+  border:none;
+  background-image:none;
+  background-color:transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;  
+}
 
 @keyframes fadeIn {
   from {
@@ -44,3 +52,4 @@ textarea {
     opacity: 1; 
   }
 }
+
