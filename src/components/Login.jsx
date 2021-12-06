@@ -26,15 +26,14 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-    .then((cred) => {
-      console.log("Logged in user: ", cred.user);
-    })
-    .catch((err) => {
-      console.log(err.message);
-    })
+      .then((cred) => {
+        console.log("Logged in user: ", cred.user);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
-  }
- 
   return (
     <Container>
       {user && <Navigate to="/home" />}
@@ -50,13 +49,20 @@ const Login = () => {
         </ContentHeader>
         <ContentForm>
           <EmailInput>
-            <input type="text" placeholder="Email" value={email}
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </EmailInput>
           <PasswordInput>
-            <input type="text" placeholder="Password" value={password}
-              onChange={(e) => setPassword(e.target.value)}/>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </PasswordInput>
           <a href="">Forgot password?</a>
           <button onClick={handleSubmit}>Sign In</button>
@@ -90,6 +96,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
+  width: 100vw;
   img {
     margin-top: 32px;
     margin-left: 56px;
@@ -100,7 +107,8 @@ const Header = styled.div`
 const SignInCard = styled.div`
   width: 352px;
   height: auto;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 110px;
   padding: 24px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px 0px;
   line-height: 1.2;
@@ -108,6 +116,7 @@ const SignInCard = styled.div`
 `;
 
 const ContentHeader = styled.div`
+  line-height: 1.5; 
   h2 {
     font-size: 30px;
     font-weight: 600;
@@ -126,6 +135,11 @@ const ContentForm = styled.form`
     padding: 15px 0;
     font-weight: 600;
     font-size: 16px;
+    width: 150px;
+    color: ${(props) => props.theme.colors.bluePrimary};
+    :hover {
+      text-decoration: underline;
+    }
   }
   button {
     background-color: rgb(10, 102, 194);
@@ -133,6 +147,11 @@ const ContentForm = styled.form`
     padding: 0 24px;
     height: 52px;
     border-radius: 30px;
+    transition-property: background-color;
+    transition-duration: 0.167s; 
+    :hover {
+      background-color: rgb(0, 65, 130);
+    }
   }
 `;
 
@@ -151,11 +170,10 @@ const EmailInput = styled.div`
   line-height: 30px;
   margin-top: 24px;
   input {
-    height: 30px; 
-    margin-bottom: 18px; 
+    height: 30px;
+    margin-bottom: 18px;
     ::placeholder {
       color: rgba(0, 0, 0, 0.5);
-      
     }
   }
 `;
@@ -181,23 +199,37 @@ export const Separator = styled.div`
 `;
 
 const GoogleSignIn = styled.button`
-  margin-top: 12px;
   display: flex;
+  align-items: center;
   justify-content: center;
   background-color: #fff;
-  align-items: center;
-  border-radius: 28px;
-  height: 56px;
-  width: 300px;
-  padding: 20px;
+  color: rgba(0, 0, 0, 0.6) !important;
+  border-radius: 28px !important;
+  width: 100%;
+  height: 52px;
+  margin-top: 12px;
+  border: 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 40px;
+  overflow: hidden;
+  outline-width: 2px;
+  padding: 0 24px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition-property: background-color, box-shadow;
+  transition-duration: 0.167s; 
+  margin-bottom: 15px; 
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 60%), inset 0 0 0 2px rgb(0 0 0 / 0%),
     inset 0 0 0 1px rgb(0 0 0 / 0%);
-  vertical-align: middle;
-  font-size: 1.3rem;
-  color: rgba(0, 0, 0, 0.6);
+    img {
+      margin-right: 8px; 
+    }
   &:hover {
     background-color: rgba(207, 207, 207, 0.25);
-    color: rgba(0, 0, 0, 0.75);
+    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 60%);
   }
 `;
 
@@ -208,10 +240,10 @@ const Register = styled.div`
   a {
     font-weight: 600;
     margin-left: 6px;
-    text-decoration: none; 
-    color: ${props => props.theme.colors.bluePrimary};
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.bluePrimary};
     :hover {
-      text-decoration: underline; 
+      text-decoration: underline;
     }
   }
 `;
