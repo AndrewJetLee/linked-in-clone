@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { signOutAPI } from "../redux/authSlice";
 
-function Header({user, dispatch}) {
+function Header({ user, dispatch }) {
   return (
     <Container>
       <Content>
@@ -14,9 +14,14 @@ function Header({user, dispatch}) {
           <input type="text" placeholder="Search" />
           <img src="./images/search-icon.svg" alt="" />
         </Search>
+
         <Nav>
           <NavListWrap>
             <NavList>
+              <a href="" className="searchIcon">
+                <img src="/images/nav-search.svg" alt="" />
+                <span>Search</span>
+              </a>
               <a href="" className="active">
                 <img src="/images/nav-home.svg" alt="" />
                 <span>Home</span>
@@ -39,13 +44,17 @@ function Header({user, dispatch}) {
               </a>
               <User>
                 <a href="">
-                  {user && user.photoURL ? <img src={user.photoURL} alt=''/> : <img src="/images/user.svg" alt="" />}
+                  {user && user.photoURL ? (
+                    <img src={user.photoURL} alt="" />
+                  ) : (
+                    <img src="/images/user.svg" alt="" />
+                  )}
                   <span>
                     Me <img src="/images/down-icon.svg" alt="" />
                   </span>
                 </a>
                 <SignOut onClick={() => dispatch(signOutAPI())}>
-                    <a href="" >Sign Out</a>
+                  <a href="">Sign Out</a>
                 </SignOut>
               </User>
               <Work>
@@ -59,6 +68,7 @@ function Header({user, dispatch}) {
               </Work>
             </NavList>
           </NavListWrap>
+          <Premium>Get Hired Faster, <br /> Try Premium Free</Premium>
         </Nav>
       </Content>
     </Container>
@@ -82,11 +92,12 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 70vw;
+  width: 75%;
   min-height: 100%;
-  min-width: 70vw; 
-  max-width: 100%;
+  @media (max-width: 1200px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
 `;
 
 const Logo = styled.span`
@@ -96,7 +107,6 @@ const Logo = styled.span`
 
 const Search = styled.div`
   position: relative;
-  flex-grow: 1;
   input {
     width: 228px;
     max-width: 280px;
@@ -123,23 +133,28 @@ const Search = styled.div`
     align-items: center;
     transition: background-color 0.15s;
   }
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const Nav = styled.nav`
+  display: flex;
   margin-left: auto;
+  width: 100%;
+  @media (max-width: 1200px) {
+    margin-left: 0;
+  }
   @media (max-width: 768px) {
-    position: fixed;
-    left: 0;
-    top: 0;
     background: white;
     width: 100%;
   }
 `;
 
-const NavListWrap = styled.ul`
+const NavListWrap = styled.div`
   display: flex;
   list-style: none;
-
+  width: 100%;
   .active {
     span:after {
       content: "";
@@ -158,8 +173,11 @@ const NavListWrap = styled.ul`
 const NavList = styled.li`
   display: flex;
   align-items: center;
-  width: 30vw;
-  justify-content: space-around;
+  justify-content: flex-end;
+  width: 100%;
+  .searchIcon {
+    display: none;
+  }
   a {
     display: flex;
     background: transparent;
@@ -173,7 +191,7 @@ const NavList = styled.li`
     max-width: 80px;
     position: relative;
     text-decoration: none;
-    padding: 0 10px;
+    padding: 0 20px;
 
     span {
       color: rgba(0, 0, 0, 0.6);
@@ -181,6 +199,9 @@ const NavList = styled.li`
       align-items: center;
       transition-property: color, opacity;
       transition-duration: 0.2s;
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
     img {
       color: rgba(0, 0, 0, 0.6);
@@ -196,52 +217,72 @@ const NavList = styled.li`
         opacity: 1;
       }
     }
+    @media (max-width: 768px) {
+      padding: 0 7px;
+    }
+  }
+  @media (max-width: 1200px) {
+    width: 100%;
+    justify-content: space-around;
+    .searchIcon {
+      display: flex;
+    }
   }
 `;
 
 const SignOut = styled.div`
   position: absolute;
-  top: 45px; 
+  top: 45px;
   background: white;
-  border-radius: 0 0 5px 5px; 
-  width: 100px;
-  height: 40px; 
-  font-size: 16px; 
-  text-align: center; 
-  display: none; 
-  transition-duration: .1s; 
-
+  border-radius: 0 0 5px 5px;
+  width: 120px;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+  display: none;
+  transition-duration: 0.1s;
 `;
 
-
 const User = styled(NavList)`
-    &:hover {
-        ${SignOut} {
-            display: flex;
-            align-items: center; 
-            justify-content: center;
-        }
+  &:hover {
+    ${SignOut} {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    a {
-
+  }
+  width: auto;
+  a {
     img {
       width: 24px;
       border-radius: 50%;
-      
     }
     span {
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-        img {
-            width: 12px; 
-        }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 12px;
+      }
     }
-    
   }
 `;
 
 const Work = styled(User)`
-    border-left: 1px solid rgba(0, 0, 0, 0.1)
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
+const Premium = styled.a`
+  display: flex;
+  font-size: 11px;
+  align-items: center; 
+  width: 110px; 
+  color: rgb(145, 89, 7);
+  cursor: pointer; 
+  :hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    display: none; 
+  }
+`;

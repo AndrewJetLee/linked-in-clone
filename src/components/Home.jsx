@@ -16,7 +16,7 @@ function Home() {
   onAuthStateChanged(auth, (currentUser) => {
     dispatch(googleSignIn(currentUser));
   });
-  
+ 
   return (
     <>
       {!auth.currentUser && <Navigate to="/" />}
