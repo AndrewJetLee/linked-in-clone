@@ -279,6 +279,7 @@ const Premium = styled.a`
   width: 110px; 
   color: rgb(145, 89, 7);
   cursor: pointer; 
+  margin-right: 30px; 
   :hover {
     text-decoration: underline;
   }
