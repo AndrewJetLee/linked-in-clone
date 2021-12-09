@@ -30,6 +30,13 @@ export const Main = ({ user, dispatch }) => {
 
 const Container = styled.div`
   grid-area: Main;
+  width: 100%; 
+  @media (max-width: 1200px) {
+    width: 70%;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Loading = styled.div`
