@@ -32,7 +32,7 @@ const Container = styled.div`
   grid-area: Main;
   width: 100%; 
   @media (max-width: 1200px) {
-    width: 70%;
+    width: 65%;
   }
   @media (max-width: 768px) {
     width: 100%;
