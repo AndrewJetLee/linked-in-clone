@@ -198,7 +198,7 @@ export const Separator = styled.div`
   }
 `;
 
-const GoogleSignIn = styled.button`
+export const GoogleSignIn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
