@@ -22,6 +22,7 @@ function Landing() {
   return (
     <>
       {user && <Navigate to="/home" />}
+      {/* {if loading, return the loading screen, otherwise, return the page} */}
       <Container>
         <Nav>
           <a href="/">
@@ -135,6 +136,7 @@ const Section = styled.div`
     max-width: 100%;
     width: 100%;
   }
+  
 `;
 
 const Hero = styled.div`

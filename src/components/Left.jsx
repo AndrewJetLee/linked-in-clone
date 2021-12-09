@@ -1,14 +1,18 @@
 import styled from "styled-components";
 
-export const Left = ({user, dispatch}) => {
+export const Left = ({ user, dispatch }) => {
   return (
     <Container>
       <TopCard>
         <UserInfo>
           <CardBackground />
           <a>
-            <Photo></Photo>
-            <Link>Welcome, {user ? user.displayName + "!": "there!"}</Link>
+            {user && user.photoURL ? (
+              <Photo src={user.photoURL} alt="" />
+            ) : (
+              <PhotoDefault/>
+            )}
+            <Link>{user ? user.displayName : "Hello there!"}</Link>
           </a>
           <a>
             <AddPhotoText>Add a photo</AddPhotoText>
@@ -18,6 +22,7 @@ export const Left = ({user, dispatch}) => {
           <a>
             <div>
               Connection <span>1</span>
+              
             </div>
 
             <div>Grow your network</div>
@@ -72,6 +77,7 @@ export const UserInfo = styled.div`
     :hover {
       cursor: pointer;
       text-decoration: underline;
+      color: #0a66c2;
     }
   }
 `;
@@ -80,15 +86,12 @@ const CardBackground = styled.div`
   background-image: url("/images/card-bg.svg");
   background-position: center;
   background-size: cover;
-  height: 50px;
+  height: 56px;
   margin: -12px -12px 0;
 `;
 
-const Photo = styled.div`
+const Photo = styled.img`
   box-shadow: none;
-  background-image: url("images/photo.svg");
-  background-repeat: no-repeat;
-  background-position: center;
   background-color: white;
   background-size: 60%;
   background-clip: content-box;
@@ -98,6 +101,21 @@ const Photo = styled.div`
   border: 2px solid white;
   margin: -38px auto 12px;
 `;
+
+const PhotoDefault = styled.div`
+  box-shadow: none;
+  background-image:  url("images/photo.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 60%;
+  background-clip: content-box;
+  height: 68px;
+  width: 68px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin: -38px auto 12px;
+`
 
 const Link = styled.div`
   line-height: 1.5;
@@ -115,7 +133,7 @@ const AddPhotoText = styled.div`
 
 const Widget = styled.div`
   border-top: solid 1px rgba(0, 0, 0, 0.08);
-  border-bottom: solid 1px rgba(0, 0, 0, 0.08);
+  
   font-size: 12px;
   font-weight: 600;
   a {
@@ -125,30 +143,34 @@ const Widget = styled.div`
     align-items: flex-start;
     padding: 10px 0;
     div {
-      padding: 0 10px;
+      padding: 4px 10px;
       color: rgba(0, 0, 0, 0.65);
       display: flex;
       justify-content: space-between;
       width: 100%;
+      
       span {
         color: #0a66c2;
       }
     }
     div:first-child {
-      :hover {
-        background-color: rgba(0, 0, 0, 0.09);
-      }
-    }
-    div:nth-child(3) {
-      margin-top: 8px;
+      cursor: pointer; 
       :hover {
         background-color: rgba(0, 0, 0, 0.09);
       }
     }
     div:nth-child(2) {
-      margin-top: -2px;
+      margin-top: -7px;
       color: black;
     }
+    div:nth-child(3) {
+      cursor: pointer; 
+      margin-top: 8px;
+      :hover {
+        background-color: rgba(0, 0, 0, 0.09);
+      }
+    }
+    
   }
 `;
 const Items = styled.div`
@@ -157,11 +179,19 @@ const Items = styled.div`
   font-weight: 600;
   display: flex;
   justify-content: flex-start;
+  border-top: solid 1px rgba(0, 0, 0, 0.08);
   img {
     opacity: 0.65;
   }
   a {
     padding-left: 5px;
+  }
+  transition-property: background-color, border-top;
+  transition-duration: 0.167s; 
+  cursor: pointer; 
+  :hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
   }
 `;
 
@@ -206,7 +236,7 @@ const Discover = styled.div`
   color: rgba(0, 0, 0, 0.65);
   padding: 12px;
   transition-property: background-color border-top;
-  transition-duration: 0.1s;
+  transition-duration: 0.167s;
   :hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.09);

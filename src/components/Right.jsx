@@ -57,7 +57,10 @@ export const Right = () => {
 };
 
 const Container = styled.div`
-  grid-area: Right;
+  grid-area: Right; 
+  @media (max-width: 1200px) {
+    display: none; 
+  }
 `;
 
 const NewsCard = styled(TopCard)``;

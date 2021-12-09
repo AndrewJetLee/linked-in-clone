@@ -16,7 +16,7 @@ function Home() {
   onAuthStateChanged(auth, (currentUser) => {
     dispatch(googleSignIn(currentUser));
   });
-  
+ 
   return (
     <>
       {!auth.currentUser && <Navigate to="/" />}
@@ -48,7 +48,7 @@ export default Home;
 
 const Container = styled.div`
   display: flex;
-  width: 70vw;
+  width: 100vw;
   flex-direction: column;
   align-items: space-around;
   justify-content: space-around;
@@ -82,16 +82,26 @@ const Section = styled.div`
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: minmax(200px, 5fr) minmax(500px, 12fr) minmax(
+  grid-template-columns: minmax(200px, 4fr) minmax(500px, 9fr) minmax(
       300px,
-      7fr
+      6fr
     );
+  width: 73%; 
+  margin: 25px auto; 
   grid-template-rows: auto;
-  margin: 25px 0;
   column-gap: 25px;
   grid-template-areas: "Left Main Right";
+  
+  @media (max-width: 1200px) {
+    width: 100%; 
+    grid-template-areas: "Left Main Main";
+    margin-left: 40px;
+    margin-right: 50px;
+  }
   @media (max-width: ${(props) => props.theme.mobile}) {
     display: flex;
     flex-direction: column;
+    margin: 0; 
+    width: 100vw; 
   }
 `;
