@@ -7,15 +7,17 @@ import {
 import { auth } from "../firebase";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { googleSignIn } from "../redux/authSlice";
 import { GoogleSignIn } from "./Login";
 import { getGoogleInfo } from "../redux/authSlice";
 
+
 const Signup = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,7 +48,7 @@ const Signup = () => {
       {auth.currentUser && <Navigate to="/home" />}
       <Header>
         <div>
-          <img src="/images/linkedin-login-logo.svg" alt="" />
+          <img onClick={() => navigate('/') } src="/images/linkedin-login-logo.svg" alt="" />
         </div>
         <h1>Make the most of your professional life</h1>
       </Header>
@@ -112,6 +114,7 @@ const Header = styled.div`
     padding: 20px;
     img {
       height: 34px;
+      cursor: pointer; 
     }
   }
   h1 {

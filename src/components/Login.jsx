@@ -101,6 +101,7 @@ const Header = styled.div`
     margin-top: 32px;
     margin-left: 56px;
     height: 28px;
+    
   }
 `;
 

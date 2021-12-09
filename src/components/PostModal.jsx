@@ -26,12 +26,12 @@ const PostModal = ({ toggleModal, user, dispatch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let article = {
-        user,
-        description: postText,
-        image: postImage,
-        video: videoLink,
-        date: Timestamp.now(),
-    }
+      user,
+      description: postText,
+      image: postImage,
+      video: videoLink,
+      date: Timestamp.now(),
+    };
     dispatch(postArticleAPI(article));
     toggleModal(false);
   };
@@ -188,7 +188,7 @@ const Content = styled.div`
   flex-direction: column;
   position: relative;
   top: 32px;
-
+  height: auto; 
   @media screen and (max-height: 600px) {
     top: 0;
     height: 100vh;
@@ -316,6 +316,14 @@ const ShareBottom = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+  .video-url-input {
+    div {
+      input {
+        margin-left: 20px;
+        width: 100%; 
+      }
+    }
+  }
 `;
 
 const ShareIcons = styled.div`
@@ -328,6 +336,8 @@ const ShareIcons = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition-property: background-color;
+    transition-duration: 0.167s; 
     :hover {
       background-color: rgba(0, 0, 0, 0.08);
       cursor: pointer;
@@ -358,8 +368,9 @@ const PostButtons = styled.div`
   font-size: 14px;
   font-weight: 600;
   position: relative;
-  top: -7px;
   color: rgba(0, 0, 0, 0.6);
+  
+  
   button {
     padding: 6px 12px;
     border-radius: 20px;
@@ -397,6 +408,7 @@ const UploadImage = styled.div`
   img {
     width: 100%;
     height: auto;
+    max-height: 400px; 
   }
   .video-url-input {
     display: flex;
