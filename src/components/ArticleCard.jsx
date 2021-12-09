@@ -23,10 +23,10 @@ const ArticleCard = ({ article }) => {
 
         <ArticleInfo>
           <p>{article.description}</p>
-          {article.sharedImg && !article.video ?  (
+          {article.sharedImg && !article.video ? (
             <img src={article.sharedImg} alt="" />
           ) : (
-            article.video && <ReactPlayer width={`100%`} url={article.video}/>
+            article.video && <ReactPlayer width={`100%`} url={article.video} controls={true}/>
           )}
         </ArticleInfo>
 
@@ -69,6 +69,7 @@ export default ArticleCard;
 
 const Container = styled.div`
   height: auto;
+  margin-bottom: 8px;
 `;
 
 const Card = styled.div`
@@ -110,6 +111,7 @@ const AuthorInfo = styled.div`
   img {
     width: 48px;
     height: 48px;
+    border-radius: 50%;
   }
 `;
 const DotMenu = styled.a`
@@ -123,6 +125,8 @@ const DotMenu = styled.a`
   align-items: center;
   margin-top: -7px;
   cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.167s;
   img {
     width: 24px;
     height: 24px;
@@ -133,7 +137,6 @@ const DotMenu = styled.a`
 `;
 
 const ArticleInfo = styled.div`
-  
   p {
     font-size: 14px;
     margin-bottom: 10px;
@@ -150,6 +153,12 @@ const SocialReaction = styled.div`
 
 const SocialCount = styled.div`
   padding-top: 4px;
+  display: flex;
+  span {
+    margin-left: 2px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+  }
 `;
 
 const SocialResponse = styled.div`
@@ -167,7 +176,6 @@ const SocialResponse = styled.div`
     width: auto;
     padding: 24px 28px;
     border-radius: 5px;
-    /* margin-left: -22px;  */
     img {
       width: 24px;
       height: 24px;
@@ -175,6 +183,8 @@ const SocialResponse = styled.div`
     span {
       font-size: 14px;
     }
+    transition-property: background-color;
+    transition-duration: 0.167s;
     :hover {
       background-color: rgba(0, 0, 0, 0.08);
     }
