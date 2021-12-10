@@ -182,7 +182,7 @@ const Content = styled.div`
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-  max-height: 90%;
+  max-height: 100%;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -286,7 +286,7 @@ const PostInput = styled.form`
   overflow-y: auto;
   textarea {
     width: 100%;
-    height: 96px;
+    height: auto;
     font-size: 15px;
   }
 `;

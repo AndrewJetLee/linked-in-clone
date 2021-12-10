@@ -56,6 +56,11 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </EmailInput>
+          {/* pass in a prop, if a valid email isnt entered into the field, 
+          render error message 1, 
+          if an email is passed in but not one that exists in the backend, 
+          render error message 2*/}
+          <EmailError >Please enter an email address or phone number</EmailError>
           <PasswordInput>
             <input
               type="password"
@@ -64,6 +69,9 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </PasswordInput>
+          {/* if no password passed in upon submitting,
+          render error message*/}
+          <PasswordError>Please enter valid password</PasswordError>
           <a href="">Forgot password?</a>
           <button onClick={handleSubmit}>Sign In</button>
         </ContentForm>
@@ -178,6 +186,18 @@ const EmailInput = styled.div`
     }
   }
 `;
+
+const EmailError = styled.span`
+  font-size: 13px; 
+  font-weight: 600; 
+  margin-top: 4px; 
+  color: red; 
+  display: none; 
+`
+
+const PasswordError = styled(EmailError)`
+`
+
 const PasswordInput = styled(EmailInput)``;
 
 const AlternateSignIn = styled.div``;
